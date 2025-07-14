@@ -3,7 +3,10 @@ body {
     font-family: 'ZCOOL KuaiLe', cursive;
     background: linear-gradient(to bottom right, #c8f0cf, #e6fff0);
     color: #333;
-    min-height: 100vh;
+    /* 确保 body 至少和视口一样高，并设置为 flex 容器 */
+    min-height: 100vh; /* 最小高度为视口高度 */
+    display: flex; /* 启用 Flexbox */
+    flex-direction: column; /* 子元素垂直堆叠 */
 }
 
 .navbar {
@@ -41,6 +44,8 @@ body {
 .main-section {
     text-align: center;
     padding: 60px 20px 40px;
+    /* 移除 flex-grow: 1，让其高度由内容决定 */
+    /* flex-grow: 1; */
 }
 
 .together-title {
@@ -78,6 +83,11 @@ body {
     gap: 40px;
     padding: 60px 20px;
     flex-wrap: wrap;
+    /* 移除 flex-grow: 1，让其高度由内容决定，从而固定高度 */
+    /* flex-grow: 1; */
+    /* 关键：使用 auto margins 在垂直方向上居中并分配剩余空间 */
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .link-box {
@@ -96,22 +106,13 @@ body {
     transform: scale(1.05);
 }
 
-.link-box h3 {
-    margin: 15px 0 5px;
-    font-size: 1.4rem;
-}
-
-.link-box p {
-    font-size: 1rem;
-    color: #888;
-}
-
 footer {
     padding: 20px 0;
     text-align: center;
     font-family: 'Times New Roman', Times, serif;
-    margin-top: 60px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* 关键：将 footer 推到 flex 容器的底部 */
+    margin-top: auto;
 }
 
 .footer-content p {

@@ -4,10 +4,48 @@ body {
     font-family: 'Fira Sans', 'Segoe UI', 'Helvetica Neue', sans-serif;
     background: linear-gradient(to bottom right, #c8f0cf, #e6fff0);
     color: #2f3e46;
-    min-height: 100vh;
     line-height: 1.8;
     font-size: 16px;
+    /* 确保 body 至少和视口一样高，并设置为 flex 容器 */
+    min-height: 100vh; /* 最小高度为视口高度 */
+    display: flex; /* 启用 Flexbox */
+    flex-direction: column; /* 子元素垂直堆叠 */
 }
+
+/* 假设此页面也有一个 navbar，如果实际没有，可以忽略此部分 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-left {
+    font-size: 1.4rem;
+}
+
+.nav-right {
+    list-style: none;
+    display: flex;
+    gap: 1.2rem;
+}
+
+.nav-right li a {
+    text-decoration: none;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+.nav-right li a:hover {
+    color: #66bb6a;
+}
+/* navbar 样式结束 */
+
 
 .devlog-header h1{
     font-size: 3rem;
@@ -30,6 +68,8 @@ body {
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
+    /* 允许 devlog-content 增长以填充可用空间 */
+    flex-grow: 1;
 }
 
 .devlog-content h2,
@@ -56,7 +96,43 @@ body {
     padding-left: 10px;
 }
 
+/* 假设此页面也有一个 footer，并且其样式与之前页面类似 */
+footer {
+    padding: 20px 0;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* 关键：将 footer 推到 flex 容器的底部 */
+    margin-top: auto;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icon {
+    margin: 0 10px;
+    font-size: 1.4rem;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #ff8a8a;
+}
+/* footer 样式结束 */
+
 @media (max-width: 600px) {
+    /* 如果有 navbar，也需要响应式调整 */
+    .nav-right {
+        gap: 0.8rem;
+    }
     .devlog-header h1 {
         font-size: 2.2rem;
     }
