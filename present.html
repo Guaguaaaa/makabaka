@@ -1,44 +1,143 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Present</title>
-        <link rel="stylesheet" href="css/navbar&footer.css">
-        <link rel="stylesheet" href="css/present.css">
-        <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    </head>
-    <body class="beach">
-        <div class="container">
-            <h1 class="title">当下</h1>
-            <div class="text-container">
-                <p id="line1"></p>
-                <p id="line2"></p>
-                <p id="line3"></p>
-                <p id="line4"></p>
-                <p id="line5"></p>
-            </div>
-            <a href="home.html" id="home-btn" class="hidden">点我进主页</a>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Present</title>
+    <link rel="stylesheet" href="css/navbar&footer.css">
+    <link rel="stylesheet" href="css/present.css">
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body class="beach">
+<!-- Streamlined music control structure -->
+<div id="music-control">
+    <div class="music-hint">🎵 先点我开启背景音乐 →</div>
+    <button id="toggle-music">▶️</button>
+    <div id="yt-music-player"></div>
+</div>
+<div class="container">
+    <h1 class="title">当下</h1>
+    <div class="text-container">
+        <p id="line1"></p>
+        <p id="line2"></p>
+        <p id="line3"></p>
+        <p id="line4"></p>
+        <p id="line5"></p>
+    </div>
+    <a href="home.html" id="home-btn" class="hidden">点我进主页</a>
+</div>
 
-        <footer class="footer">
-            <div class="footer-content">
-                <p>&copy; 2025 petryiy. All rights reserved.</p>
-                <p>Built with 🩷 to Adonia.</p>
-                <div class="social-icons">
-                <a href="https://www.instagram.com/michaelzhang715/" target="_blank" class="social-icon">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="www.linkedin.com/in/ruiqi-zhang-michael" target="_blank" class="social-icon">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="https://github.com/petryiy" target="_blank" class="social-icon">
-                    <i class="fab fa-github"></i>
-                </a>
-                </div>
-            </div>
-        </footer>
-        <script src="scripts/present.js"></script>
-    </body>
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 petryiy. All rights reserved.</p>
+        <p>Built with 🩷 to Adonia.</p>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/michaelzhang715/" target="_blank" class="social-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="www.linkedin.com/in/ruiqi-zhang-michael" target="_blank" class="social-icon">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/petryiy" target="_blank" class="social-icon">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+<script src="scripts/present.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+    let player;
+    let isPlaying = false;
+    let hasUserInteracted = false;
+
+    // 获取按钮引用
+    const toggleMusicBtn = document.getElementById('toggle-music');
+
+    // 更新按钮图标的函数
+    function updateToggleButtonIcon() {
+        if (toggleMusicBtn) {
+            // 如果播放器存在且正在播放且未静音，则显示暂停图标
+            if (player && player.getPlayerState() === YT.PlayerState.PLAYING && !player.isMuted()) {
+                toggleMusicBtn.textContent = '⏸️'; // 正在播放且有声音
+            } else {
+                toggleMusicBtn.textContent = '▶️'; // 暂停、停止或静音
+            }
+        }
+    }
+
+    // 用于初始化 YouTube 播放器的函数
+    function initializeYouTubePlayerPresent() {
+        player = new YT.Player('yt-music-player', {
+            videoId: 'IyXjHNwQIhw',
+            playerVars: {
+                autoplay: 1,
+                controls: 0,
+                loop: 1,
+                playlist: 'IyXjHNwQIhw',
+                modestbranding: 1,
+                rel: 0
+            },
+            events: {
+                onReady: (event) => {
+                    // 播放器准备就绪后，立即静音播放器，因为浏览器可能已经静音了
+                    event.target.mute();
+                    isPlaying = false; // 初始状态为静音，所以视为未播放
+                    updateToggleButtonIcon(); // 更新按钮图标为“播放”状态
+                    console.log("YouTube Player is ready and muted."); // 调试日志
+                },
+                onStateChange: (event) => {
+                    // 根据播放器实际状态和静音状态更新 isPlaying
+                    isPlaying = (event.data === YT.PlayerState.PLAYING && !player.isMuted());
+                    updateToggleButtonIcon();
+                }
+            }
+        });
+    }
+
+    // YouTube API 会在 API 准备就绪时调用此函数
+    function onYouTubeIframeAPIReady() {
+        initializeYouTubePlayerPresent();
+    }
+
+    // 检查 YouTube API 是否已加载（例如，从上一个页面加载）
+    // 如果已加载，则手动调用初始化函数。
+    if (window.YT && window.YT.Player) {
+        onYouTubeIframeAPIReady();
+    }
+
+    // 将按钮点击事件监听器移到这里，确保它在 DOM 加载后立即绑定
+    if (toggleMusicBtn) {
+        toggleMusicBtn.addEventListener('click', () => {
+            // 在执行任何播放器操作之前，检查 player 对象是否已定义
+            if (!player) {
+                console.warn("Player not yet initialized. Please wait or refresh.");
+                return; // 如果播放器未就绪，则不执行任何操作
+            }
+
+            if (!hasUserInteracted) {
+                // 第一次交互：取消静音并播放
+                player.unMute();
+                player.playVideo();
+                hasUserInteracted = true;
+                isPlaying = true; // 现在真正播放并有声音了
+                console.log("First user interaction: Unmuted and playing."); // 调试日志
+            } else {
+                // 后续交互：切换播放/暂停
+                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                    isPlaying = false;
+                    console.log("Pausing music."); // 调试日志
+                } else {
+                    player.playVideo();
+                    isPlaying = true;
+                    console.log("Playing music."); // 调试日志
+                }
+            }
+            updateToggleButtonIcon(); // 交互后更新图标
+        });
+    }
+</script>
+</body>
 </html>

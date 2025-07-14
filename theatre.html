@@ -1,106 +1,136 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Memory</title>
-        <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="css/navbar&footer.css">
-        <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Pacifico&display=swap" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    </head>
-    <body class="theatre">
-        <img src="images/snoopy.png" class="snoopy" alt="snoopy">
-        <div class="memory-stage">
-            <div id="music-control">
-                <button id="toggle-music">⏸️</button>
-                <div id="yt-music-player"></div>
-            </div>
-            <h1 class="memory-title">回忆</h1>
-            <div class="intro-texts">
-                <p>正如我所说过快乐无法永恒，</p>
-                <p>但是记忆中的快乐是永恒的。</p>
-                <p>于是我送你的生日礼物之一，</p>
-                <p>便是——回忆。</p>
-            </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/navbar&footer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body class="theatre">
+<img src="images/snoopy.png" class="snoopy" alt="snoopy">
+<div class="memory-stage">
+    <div id="music-control">
+        <button id="toggle-music">⏸️</button>
+        <div id="yt-music-player"></div>
+    </div>
+    <h1 class="memory-title">回忆</h1>
+    <div class="intro-texts">
+        <p>正如我所说过快乐无法永恒，</p>
+        <p>但是记忆中的快乐是永恒的。</p>
+        <p>于是我送你的生日礼物之一，</p>
+        <p>便是——回忆。</p>
+    </div>
 
 
-              
 
-            <div class="memory-card-container"></div>
 
-            <div class="all-cards-grid hidden"></div>
+    <div class="memory-card-container"></div>
 
-            <a href="future.html?from=theatre" class="next-button hidden" id="wish-btn">
-                <span>点我点我点我</span>
-                <svg class="paper-plane" viewBox="0 0 24 24" width="24" height="24" fill="white">
-                    <path d="M2 3l19 9-19 9v-7l13-2-13-2v-7z"/>
-                </svg>
+    <div class="all-cards-grid hidden"></div>
+
+    <a href="future.html?from=theatre" class="next-button hidden" id="wish-btn">
+        <span>点我点我点我</span>
+        <svg class="paper-plane" viewBox="0 0 24 24" width="24" height="24" fill="white">
+            <path d="M2 3l19 9-19 9v-7l13-2-13-2v-7z"/>
+        </svg>
+    </a>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 petryiy. All rights reserved.</p>
+        <p>Built with 🩷 to Adonia.</p>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/michaelzhang715/" target="_blank" class="social-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="www.linkedin.com/in/ruiqi-zhang-michael" target="_blank" class="social-icon">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/petryiy" target="_blank" class="social-icon">
+                <i class="fab fa-github"></i>
             </a>
         </div>
+    </div>
+</footer>
 
-        <footer class="footer">
-            <div class="footer-content">
-                <p>&copy; 2025 petryiy. All rights reserved.</p>
-                <p>Built with 🩷 to Adonia.</p>
-                <div class="social-icons">
-                <a href="https://www.instagram.com/michaelzhang715/" target="_blank" class="social-icon">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="www.linkedin.com/in/ruiqi-zhang-michael" target="_blank" class="social-icon">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="https://github.com/petryiy" target="_blank" class="social-icon">
-                    <i class="fab fa-github"></i>
-                </a>
-                </div>
-            </div>
-        </footer>
+<script src="scripts/theatre.js"></script>
+<script>
+    document.getElementById('wish-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.body.classList.add('page-folding');
+        setTimeout(() => {
+            window.location.href = 'future.html';
+        }, 1200);
+    });
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+    let player;
+    let isPlaying = true; // 假设默认是播放状态
 
-        <script src="scripts/theatre.js"></script>
-        <script>
-            document.getElementById('wish-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.body.classList.add('page-folding');
-                setTimeout(() => {
-                    window.location.href = 'future.html';
-                }, 1200);
-            });
-        </script>
-        <script src="https://www.youtube.com/iframe_api"></script>
-        <script>
-            let player;
-            let isPlaying = true;
-            
-            function onYouTubeIframeAPIReady() {
-                player = new YT.Player('yt-music-player', {
-                videoId: 'Yh38A0BU22w', // 《只为你着迷》的视频ID
-                playerVars: {
-                    autoplay: 1,
-                    controls: 0,
-                    loop: 1,
-                    playlist: 'Yh38A0BU22w',
-                    modestbranding: 1,
-                    rel: 0
-                },
-                events: {
-                    onReady: (event) => {
+    // 获取按钮引用
+    const toggleMusicBtn = document.getElementById('toggle-music');
+
+    // 用于初始化 YouTube 播放器的函数
+    function initializeYouTubePlayerTheatre() {
+        player = new YT.Player('yt-music-player', {
+            videoId: 'Yh38A0BU22w', // 《只为你着迷》的视频ID
+            playerVars: {
+                autoplay: 1,
+                controls: 0,
+                loop: 1,
+                playlist: 'Yh38A0BU22w',
+                modestbranding: 1,
+                rel: 0
+            },
+            events: {
+                onReady: (event) => {
                     event.target.playVideo();
+                    isPlaying = true; // 确保状态同步
+                    updateToggleButtonIcon(); // 更新按钮图标
+
+                    // 只有在播放器准备就绪后才添加按钮点击事件监听器
+                    if (toggleMusicBtn) {
+                        toggleMusicBtn.addEventListener('click', () => {
+                            if (isPlaying) {
+                                player.pauseVideo();
+                            } else {
+                                player.playVideo();
+                            }
+                            isPlaying = !isPlaying;
+                            updateToggleButtonIcon(); // 每次点击后更新图标
+                        });
                     }
+                },
+                onStateChange: (event) => {
+                    isPlaying = event.data === YT.PlayerState.PLAYING;
+                    updateToggleButtonIcon();
                 }
-                });
             }
-            
-            document.getElementById('toggle-music').addEventListener('click', () => {
-                if (isPlaying) {
-                player.pauseVideo();
-                document.getElementById('toggle-music').textContent = '▶️';
-                } else {
-                player.playVideo();
-                document.getElementById('toggle-music').textContent = '⏸️';
-                }
-                isPlaying = !isPlaying;
-            });
-        </script>
-    </body>
+        });
+    }
+
+    // YouTube API 会在 API 准备就绪时调用此函数
+    function onYouTubeIframeAPIReady() {
+        initializeYouTubePlayerTheatre();
+    }
+
+    // 检查 YouTube API 是否已加载（例如，从上一个页面加载）
+    // 如果已加载，则手动调用初始化函数。
+    if (window.YT && window.YT.Player) {
+        onYouTubeIframeAPIReady();
+    }
+
+    // 更新按钮图标的函数
+    function updateToggleButtonIcon() {
+        if (toggleMusicBtn) {
+            toggleMusicBtn.textContent = isPlaying ? '⏸️' : '▶️';
+        }
+    }
+</script>
+</body>
 </html>

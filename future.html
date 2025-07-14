@@ -9,113 +9,148 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="page-content">
-      <div id="music-control" style="position: fixed; top: 20px; right: 20px; z-index: 100;">
+<div class="page-content">
+    <div id="music-control" style="position: fixed; top: 20px; right: 20px; z-index: 100;">
         <button id="toggle-music" style="background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
-          🎵
+            🎵
         </button>
-      </div>
-      
-      <div id="yt-music-player" style="display: none;"></div>
+    </div>
 
-      <canvas id="stars-canvas"></canvas>
-      
-      <h1 class="page-title">愿景</h1>
-      <div class="opening-text">
+    <div id="yt-music-player" style="display: none;"></div>
+
+    <canvas id="stars-canvas"></canvas>
+
+    <h1 class="page-title">愿景</h1>
+    <div class="opening-text">
         <p id="line1"></p>
         <p id="line2"></p>
         <p id="line3"></p>
         <p id="line4"></p>
-      </div>
-
-      <div id="bottles-container"></div>
-
-      <button id="continue-btn" class="continue-btn hidden">
-        点完所有漂流瓶继续点我！
-        <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
-          <path 
-          d="M0,0 C150,50 350,0 500,50 C650,100 850,0 1000,50 C1150,100 1200,50 1200,0 L1200,100 L0,100 Z"
-          fill="rgba(255,255,255,0.2)">
-          </path>
-        </svg>
-      </button>
     </div>
 
-    <footer class="footer">
-      <div class="footer-content">
+    <div id="bottles-container"></div>
+
+    <button id="continue-btn" class="continue-btn hidden">
+        点完所有漂流瓶继续点我！
+        <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
+            <path
+                    d="M0,0 C150,50 350,0 500,50 C650,100 850,0 1000,50 C1150,100 1200,50 1200,0 L1200,100 L0,100 Z"
+                    fill="rgba(255,255,255,0.2)">
+            </path>
+        </svg>
+    </button>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
         <p>&copy; 2025 petryiy. All rights reserved.</p>
         <p>Built with 🩷 to Adonia.</p>
-    
+
         <p style="font-size: 0.75em; color: #ccc;">
-          漂流瓶插画素材来自：
-          <a href="https://zh.pngtree.com/freepng/fantasy-starry-drift-bottle-illustration_4750553.html" target="_blank" rel="noopener noreferrer">
-            pngtree.com（幻想星空漂流瓶插图）
-          </a>
+            漂流瓶插画素材来自：
+            <a href="https://zh.pngtree.com/freepng/fantasy-starry-drift-bottle-illustration_4750553.html" target="_blank" rel="noopener noreferrer">
+                pngtree.com（幻想星空漂流瓶插图）
+            </a>
         </p>
-    
+
         <div class="social-icons">
-          <a href="https://www.instagram.com/michaelzhang715/" target="_blank" class="social-icon">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="https://www.linkedin.com/in/ruiqi-zhang-michael" target="_blank" class="social-icon">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a href="https://github.com/petryiy" target="_blank" class="social-icon">
-            <i class="fab fa-github"></i>
-          </a>
+            <a href="https://www.instagram.com/michaelzhang715/" target="_blank" class="social-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/ruiqi-zhang-michael" target="_blank" class="social-icon">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/petryiy" target="_blank" class="social-icon">
+                <i class="fab fa-github"></i>
+            </a>
         </div>
-      </div>
-    </footer>      
-      
-    <script src="scripts/future.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-      let player;
-      let isPlaying = false;
-    
-      // 从URL判断是否是从theatre跳过来的
-      const urlParams = new URLSearchParams(window.location.search);
-      const fromTheatre = urlParams.get('from') === 'theatre';
-    
-      function onYouTubeIframeAPIReady() {
+    </div>
+</footer>
+
+<script src="scripts/future.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+    let player;
+    let isPlaying = false;
+    let hasStartedMusic = false;
+    // 获取按钮引用，确保在 DOMContentLoaded 之后即可访问
+    const toggleBtn = document.getElementById("toggle-music");
+
+    // 用于初始化 YouTube 播放器的函数
+    function initializeYouTubePlayer() {
         player = new YT.Player('yt-music-player', {
-          videoId: 'EHy4D0Xhjkg', // 《逐梦》 YouTube 视频 ID
-          playerVars: {
-            autoplay: fromTheatre ? 1 : 0,
-            controls: 0,
-            loop: 1,
-            playlist: 'EHy4D0Xhjkg',
-            modestbranding: 1,
-            rel: 0
-          },
-          events: {
-            onReady: (event) => {
-              if (fromTheatre) {
-                event.target.unMute();
-                event.target.playVideo();
-                isPlaying = true;
-              }
+            videoId: 'EHy4D0Xhjkg',
+            playerVars: {
+                autoplay: 1,
+                loop: 1,
+                controls: 0,
+                playlist: 'EHy4D0Xhjkg',
+                modestbranding: 1,
+                rel: 0
+            },
+            events: {
+                onReady: (event) => {
+                    // 播放器准备就绪后，尝试播放音乐并设置按钮监听器
+                    if (!hasStartedMusic) {
+                        event.target.playVideo();
+                        event.target.unMute();
+                        hasStartedMusic = true;
+                    }
+                    isPlaying = event.target.getPlayerState() === YT.PlayerState.PLAYING;
+                    updateButtonIcon();
+
+                    // 只有在播放器准备就绪后才添加按钮点击事件监听器
+                    if (toggleBtn) { // 确保按钮元素存在
+                        toggleBtn.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            if (isPlaying) {
+                                player.pauseVideo();
+                            } else {
+                                player.playVideo();
+                                player.unMute();
+                                hasStartedMusic = true; // 确保此标志在用户交互后也设置为true
+                            }
+                        });
+                    }
+                },
+                onStateChange: (event) => {
+                    isPlaying = event.data === YT.PlayerState.PLAYING;
+                    updateButtonIcon();
+                }
             }
-          }
         });
-      }
-    
-      // 控制按钮点击播放/暂停
-      document.addEventListener("DOMContentLoaded", () => {
-        const btn = document.getElementById("toggle-music");
-        btn.addEventListener("click", () => {
-          if (!player) return;
-          if (isPlaying) {
-            player.pauseVideo();
-            isPlaying = false;
-            btn.textContent = "🔇";
-          } else {
+    }
+
+    // YouTube API 会在 API 准备就绪时调用此函数
+    function onYouTubeIframeAPIReady() {
+        initializeYouTubePlayer();
+    }
+
+    // 检查 YouTube API 是否已加载（例如，从上一个页面加载）
+    // 如果已加载，则手动调用初始化函数。
+    if (window.YT && window.YT.Player) {
+        onYouTubeIframeAPIReady();
+    }
+
+    // 保留 window.showWish 覆盖，但确保 player 存在且未开始播放时才触发音乐
+    const originalShowWish = window.showWish;
+    window.showWish = function (index) {
+        if (player && !hasStartedMusic) {
             player.playVideo();
-            isPlaying = true;
-            btn.textContent = "🎵";
-          }
-        });
-      });
-    </script>    
+            player.unMute();
+            hasStartedMusic = true;
+        }
+        if (originalShowWish) {
+            originalShowWish(index);
+        }
+    };
+
+    function updateButtonIcon() {
+        if (toggleBtn) { // 确保按钮元素存在
+            toggleBtn.textContent = isPlaying ? "🎵" : "🔇";
+        }
+    }
+</script>
+
 </body>
 </html>
